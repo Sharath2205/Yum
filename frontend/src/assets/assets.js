@@ -372,7 +372,7 @@ export const food_list = [
   },
   {
     _id: "29",
-    name: "Buttter Noodles",
+    name: "Butter Noodles",
     image: food_29,
     price: 14,
     description:
