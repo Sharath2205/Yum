@@ -6,7 +6,7 @@ import "./Home.css";
 import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
 
 const Home = () => {
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useState("All");
 
   return (
     <div>
