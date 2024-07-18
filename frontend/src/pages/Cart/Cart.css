@@ -10,6 +10,14 @@
   font-size: max(1vw, 12px);
 }
 
+.cart-items .empty-cart {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  font-size: max(3vw, 24px);
+  opacity: 0.8;
+}
+
 .cart-items-item {
   margin: 10px 0px;
   color: black;
