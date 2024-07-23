@@ -2,6 +2,8 @@ import { useState } from "react";
 import { assets } from "../../assets/assets";
 import axios from "axios";
 
+import { toast } from "react-toastify";
+
 import "./Add.css";
 
 const Add = () => {
@@ -32,18 +34,24 @@ const Add = () => {
     formData.append("category", data.category);
     formData.append("price", Number(data.price));
 
-    const response = await axios.post(`${_URL}/api/food/add`, formData);
+    try {
+      const response = await axios.post(`${_URL}/api/food/add`, formData);
 
-    if (response.data.success) {
-      setData({
-        name: "",
-        description: "",
-        category: "Salad",
-        price: "",
-      });
-      setImage(false);
-    } else {
-      console.log("Failed to add product");
+      if (response.data.success) {
+        setData({
+          name: "",
+          description: "",
+          category: "Salad",
+          price: "",
+        });
+        setImage(false);
+        toast.success("Food added successfully");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (err) {
+      toast.error("Error adding food");
+      console.error(err);
     }
   };
 
