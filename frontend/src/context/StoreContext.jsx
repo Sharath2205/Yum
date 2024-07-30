@@ -1,11 +1,31 @@
 /* eslint-disable react/prop-types */
-import { createContext, useState } from "react";
-import { food_list } from "../assets/assets";
+import { createContext, useEffect, useState } from "react";
+import axios from "axios";
 
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
+  const _URL = "http://localhost:4000";
+  const [token, setToken] = useState("");
+  const [foodList, setFoodList] = useState([]);
+
+  const fetchFoodList = async () => {
+    const response = await axios.get(_URL + "/api/food/list");
+    setFoodList(response.data.data);
+
+  };
+
+  useEffect(() => {
+    const loadData = async () => {
+      await fetchFoodList();
+      if (localStorage.getItem("token")) {
+        setToken(localStorage.getItem("token"));
+      }
+    };
+
+    loadData();
+  }, []);
 
   const addToCart = (itemId) => {
     if (!cartItems[itemId]) {
@@ -29,7 +49,7 @@ const StoreContextProvider = (props) => {
     let totalAmount = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
-        let foodItem = food_list.find((product) => product._id === item);
+        let foodItem = foodList.find((product) => product._id === item);
         totalAmount += foodItem.price * cartItems[item];
       }
     }
@@ -38,12 +58,15 @@ const StoreContextProvider = (props) => {
   };
 
   const contextValue = {
-    food_list,
+    foodList,
     cartItems,
     setCartItems,
     addToCart,
     removeFromCart,
     getCartTotal,
+    _URL,
+    setToken,
+    token,
   };
 
   // eslint-disable-next-line react/prop-types
